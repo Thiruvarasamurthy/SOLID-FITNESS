@@ -35,15 +35,21 @@ export function Navbar() {
           </span>
         </a>
         <nav className="desktop-nav" aria-label="Primary">
-          {gymConfig.navigation.map((label) => (
-            <span
-              key={label}
-              aria-disabled="true"
-              title="Available in a later section"
-            >
-              {label}
-            </span>
-          ))}
+          {gymConfig.navigation.map((label) =>
+            label === 'Plans' ? (
+              <a key={label} href="#pricing">
+                {label}
+              </a>
+            ) : (
+              <span
+                key={label}
+                aria-disabled="true"
+                title="Available in a later section"
+              >
+                {label}
+              </span>
+            ),
+          )}
         </nav>
         <CallButton className="navbar-call" />
         <button
@@ -76,15 +82,28 @@ export function Navbar() {
           className="mobile-nav container"
           aria-label="Mobile primary"
         >
-          <p>Sections coming next</p>
+          <p>Explore the gym</p>
           <CallButton />
-          {gymConfig.navigation.map((label, index) => (
-            <span key={label} aria-disabled="true">
-              <small>0{index + 1}</small>
-              {label}
-              <small>Coming soon</small>
-            </span>
-          ))}
+          {gymConfig.navigation.map((label, index) =>
+            label === 'Plans' ? (
+              <a
+                key={label}
+                href="#pricing"
+                className="mobile-nav-link"
+                onClick={() => setOpen(false)}
+              >
+                <small>0{index + 1}</small>
+                {label}
+                <small aria-hidden="true">↗</small>
+              </a>
+            ) : (
+              <span key={label} aria-disabled="true">
+                <small>0{index + 1}</small>
+                {label}
+                <small>Coming soon</small>
+              </span>
+            ),
+          )}
           <button
             className="button"
             onClick={() => {

@@ -1,7 +1,7 @@
 # SOLID FITNESS website
 
 ## Context and build approach
-Read `docs/scope/scope.md` before work. Goal: more trial requests and WhatsApp enquiries for the Velachery branch. Journey approach: finish discovery to trial request, then enquiries and visits. No application is scaffolded yet; conventions below describe the intended project, not installed tooling. This task creates documentation only.
+Read `docs/scope/scope.md` before work. Goal: more trial requests and WhatsApp enquiries for the Velachery branch. Journey approach: finish discovery to trial request, then enquiries and visits. Checkpoint 01 is implemented: Next.js scaffold, layout, navbar, shared gym config and Call/WhatsApp components. Checkpoint 02 adds the Hero. Checkpoint 03 adds Pricing and enables Plans navigation; other full sections remain pending.
 
 ## Stack
 Use Next.js App Router, TypeScript with strict checking, Tailwind CSS and Framer Motion, as selected by the user. Prefer Server Components; add small Client Components only for interaction and motion. No database, payment system or hosting provider is selected. Choose compatible supported versions when scaffolding and commit one package manager lockfile. The scope's older statement that no framework was selected is superseded by this user instruction.
@@ -27,7 +27,7 @@ Use kebab-case filenames and route segments, PascalCase React component and type
 ## Code and editing rules
 1. Make surgical edits. Read a file before changing it, preserve working behavior and unrelated formatting, and never rewrite a working file merely for preference.
 2. Keep components focused, props typed and data separate from presentation. Avoid `any`, duplicate business facts, unexplained effects and abstractions with no current use.
-3. Use two space indentation, semicolons and consistent formatting. Configure ESLint and Prettier at scaffold time; use the project's eventual configuration as the formatting authority.
+3. Use two space indentation, semicolons and consistent formatting. ESLint and Prettier are installed; use the project configuration as the formatting authority.
 4. Prefer Tailwind utilities and shared tokens; keep inline styles for genuinely dynamic values. Reuse existing components before adding another dependency.
 5. Validate untrusted input on the server if a form endpoint is added. Keep secrets server side. Show success only after actual accepted delivery; a WhatsApp click is not a submitted enquiry or booking.
 6. Run configured lint, type and production build checks for implementation changes. Verify the affected journey and test meaningful failure cases. Do not claim checks ran before tooling exists. Documentation edits need link and content checks, not an application test suite.
@@ -46,9 +46,9 @@ Provide accurate titles, descriptions, canonical URLs, sitemap, robots policy, s
 
 ## Gym data integrity
 Never invent gym data. Use clear placeholders for unknown hours, trainers, qualifications, services, statistics, reviews, trial terms and facilities; do not publish fictional claims as real. Follow the scope's confirmed 29/2 address and four supplied plan totals. Do not add the old ₹500 registration fee or claim taxes or coaching are included without confirmation.
-For anonymous previews use `+91 XXXXX XXXXX` and `contact@example.com`, visibly marked as placeholders. Disable unavailable contact actions with an explanation; never route to a random person's number. Replace placeholders with verified contacts before a live enquiry launch. Do not collect health data or include enquiry values in analytics.
+The user supplied contact number lives in config with status `placeholder` and a TODO to verify it. Contact links are disabled by default, including production builds. Only `NEXT_PUBLIC_CONTACT_PREVIEW=true` explicitly enables placeholder links for review. Keep preview builds noindex and rebuild after changing this flag. Disable unavailable contact actions with an explanation; never invent a destination. Replace placeholders with verified contacts before a live enquiry launch. Do not collect health data or include enquiry values in analytics.
 
-_Drafted by /audit from the scope and user instructions. No application code or dependencies installed._
+_Drafted by /audit from the scope and user instructions. Updated to reflect checkpoints 01 and 02 and contact preview gating._
 
 <!-- BEGIN:nextjs-agent-rules -->
 

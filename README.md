@@ -1,6 +1,6 @@
-# SOLID FITNESS — checkpoint 01
+# SOLID FITNESS — checkpoint 03
 
-This runnable checkpoint contains the shared layout and navbar only. The large heading in the body is a temporary review placeholder, not the completed hero.
+This checkpoint adds four config-driven pricing cards and Plans navigation to the existing layout, navbar and Hero. Contact actions remain gated; the Hero uses a position-only 350ms entrance.
 
 ## Run locally
 
@@ -23,8 +23,12 @@ Review desktop navigation, phone Menu/Close, Escape to close, keyboard focus and
 
 Design choices: design.md. Single content source: src/content/gym-config.ts. Site entry: src/app/page.tsx. Navbar: src/components/sections/navbar.tsx.
 
-Next checkpoint: hero. No later sections have been built.
+Next checkpoint: classes. Only Hero and Pricing are full page sections so far.
 
 ## Contact links update
 
 Navbar, hero placeholder and contact preview now have Call links. The mobile menu also includes Call. WhatsApp uses the supplied number and message from gym-config.ts; its sticky action displays below 768px. The number is marked TODO for verification. No calls or messages were sent during checks. Lint, TypeScript and production build passed; rendered responsive and interaction checks remain blocked by browser availability.
+
+## Explicit preview contact flag
+
+Placeholder Call and WhatsApp destinations are disabled by default, including production builds. To exercise the supplied TODO number in a local preview, copy `.env.example` to `.env.local` and set `NEXT_PUBLIC_CONTACT_PREVIEW=true`, then restart the dev server. For a built preview, set the flag before `npm run build`; changing it only at server start will not change the compiled client bundle. Leave false for production. Preview metadata remains noindex. No real calls or messages are sent by verification.
