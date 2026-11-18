@@ -35,8 +35,8 @@ Menu 180ms ease out; button feedback 150ms; hero entrance 350ms with at most 16p
 
 ## Assets and content
 
-All gym facts and placeholder content live in src/content/gym-config.ts. Unknown people, quotes and services stay explicitly pending. Neutral local image placeholders will be added with the sections that need them. No athlete image is required for the layout/navbar checkpoint.
+All gym facts and placeholder content live in src/content/gym-config.ts. Unknown people, quotes and services stay explicitly pending. Neutral local placeholders are implemented; approved gym imagery remains pending. Contact and content placeholders must remain honest.
 
 ## Review checkpoints
 
-Build layout/navbar, then stop. Subsequent checkpoints: hero, classes, pricing, trainers, gallery, testimonials, location/contact, footer. Do not build later sections before review. Until a section exists its navbar label is unavailable text, not a broken anchor. The trial action shows an accessible explanation until Contact is built.
+Implemented checkpoints: layout/navbar, Hero, Pricing, Contact, conditional Training/Trainers/Gallery/Testimonials, FAQ, Location, Footer, Privacy, SEO and not-found recovery. Optional sections and their links follow config visibility. The trial form exists; contact gating still disables unverified recipients unless explicitly enabled for preview. Review 02 fixes align Contact spacing and control text; mobile menu scrolling and immediate map focus require browser verification. Preserve incremental scope and all BLOCKED checks in verify.md.

@@ -1,5 +1,8 @@
 import { gymConfig } from '@/content/gym-config';
-import { contactLinks } from '@/lib/contact-links';
+import { Reveal } from '@/components/motion/reveal';
+import { createPlanWhatsAppLink } from '@/lib/contact-links';
+
+import { PlanEnquiryLink } from '@/components/ui/plan-enquiry-link';
 
 const rupees = new Intl.NumberFormat('en-IN', {
   style: 'currency',
@@ -15,28 +18,35 @@ export function Pricing() {
       aria-labelledby="pricing-title"
       tabIndex={-1}
     >
-      <h2 id="pricing-title">{gymConfig.pricing.heading}</h2>
+      <Reveal as="h2" id="pricing-title">
+        {gymConfig.pricing.heading}
+      </Reveal>
       <div className="pricing-grid">
-        {gymConfig.plans.map((plan) => (
-          <article
+        {gymConfig.plans.map((plan, index) => (
+          <Reveal
+            as="article"
+            delay={index * 0.02}
             key={plan.id}
             className="plan-card"
-            aria-labelledby={`${plan.id}-title`}
+            labelledBy={`${plan.id}-title`}
           >
             <h3 id={`${plan.id}-title`}>
               {plan.months} {plan.months === 1 ? 'month' : 'months'}
             </h3>
             <p className="plan-price">{rupees.format(plan.price)}</p>
             <p className="plan-total">Total plan price</p>
-            <a className="button" href="#contact">
+            <PlanEnquiryLink planId={plan.id}>
               Enquire about plan
               <span className="sr-only">
                 {' '}
                 — {plan.months} {plan.months === 1 ? 'month' : 'months'}
               </span>
-            </a>
-            {contactLinks.whatsapp && (
-              <a className="plan-whatsapp" href={contactLinks.whatsapp}>
+            </PlanEnquiryLink>
+            {createPlanWhatsAppLink(plan.months) && (
+              <a
+                className="plan-whatsapp"
+                href={createPlanWhatsAppLink(plan.months) ?? undefined}
+              >
                 Enquire on WhatsApp
                 <span className="sr-only">
                   {' '}
@@ -44,7 +54,7 @@ export function Pricing() {
                 </span>
               </a>
             )}
-          </article>
+          </Reveal>
         ))}
       </div>
       <p className="pricing-note">{gymConfig.pricing.note}</p>

@@ -1,12 +1,33 @@
 'use client';
 
+import Link from 'next/link';
 import { useRef, useState } from 'react';
 import { CallButton } from '@/components/ui/call-button';
 import { gymConfig } from '@/content/gym-config';
+import { showTraining } from '@/lib/training';
+import { showTrainers } from '@/lib/trainers';
+import { showGallery } from '@/lib/gallery';
+import { showTestimonials } from '@/lib/testimonials';
+
+const navigation = gymConfig.navigation.filter(
+  (label) =>
+    (label !== 'Training' || showTraining) &&
+    (label !== 'Trainers' || showTrainers) &&
+    (label !== 'Facility' || showGallery) &&
+    (label !== 'Stories' || showTestimonials),
+);
+
+const sectionLinks: Record<string, string> = {
+  Training: '#classes',
+  Trainers: '#trainers',
+  Plans: '#pricing',
+  Facility: '#gallery',
+  Stories: '#testimonials',
+  Visit: '#location',
+};
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
-  const [notice, setNotice] = useState(false);
   const trigger = useRef<HTMLButtonElement>(null);
   return (
     <header
@@ -19,8 +40,8 @@ export function Navbar() {
       }}
     >
       <div className="container nav-row">
-        <a
-          href="#main"
+        <Link
+          href="/#main"
           className="brand"
           aria-label={`${gymConfig.identity.name} home`}
         >
@@ -33,13 +54,13 @@ export function Navbar() {
               {gymConfig.identity.branch} / {gymConfig.identity.city}
             </small>
           </span>
-        </a>
+        </Link>
         <nav className="desktop-nav" aria-label="Primary">
-          {gymConfig.navigation.map((label) =>
-            label === 'Plans' ? (
-              <a key={label} href="#pricing">
+          {navigation.map((label) =>
+            sectionLinks[label] ? (
+              <Link key={label} href={`/${sectionLinks[label]}`}>
                 {label}
-              </a>
+              </Link>
             ) : (
               <span
                 key={label}
@@ -52,14 +73,9 @@ export function Navbar() {
           )}
         </nav>
         <CallButton className="navbar-call" />
-        <button
-          className="button trial-button"
-          onClick={() => setNotice(!notice)}
-          aria-expanded={notice}
-          aria-controls={notice ? 'trial-notice' : undefined}
-        >
+        <Link className="button trial-button" href="/#contact">
           Request a trial <span aria-hidden="true">↗</span>
-        </button>
+        </Link>
         <button
           ref={trigger}
           className="menu-button"
@@ -71,11 +87,6 @@ export function Navbar() {
           <span aria-hidden="true">{open ? '−' : '+'}</span>
         </button>
       </div>
-      {notice && (
-        <p id="trial-notice" className="container trial-notice" role="status">
-          {gymConfig.preview.notice}
-        </p>
-      )}
       {open && (
         <nav
           id="mobile-navigation"
@@ -84,18 +95,18 @@ export function Navbar() {
         >
           <p>Explore the gym</p>
           <CallButton />
-          {gymConfig.navigation.map((label, index) =>
-            label === 'Plans' ? (
-              <a
+          {navigation.map((label, index) =>
+            sectionLinks[label] ? (
+              <Link
                 key={label}
-                href="#pricing"
+                href={`/${sectionLinks[label]}`}
                 className="mobile-nav-link"
                 onClick={() => setOpen(false)}
               >
                 <small>0{index + 1}</small>
                 {label}
                 <small aria-hidden="true">↗</small>
-              </a>
+              </Link>
             ) : (
               <span key={label} aria-disabled="true">
                 <small>0{index + 1}</small>
@@ -104,16 +115,13 @@ export function Navbar() {
               </span>
             ),
           )}
-          <button
+          <Link
             className="button"
-            onClick={() => {
-              setNotice(true);
-              setOpen(false);
-              trigger.current?.focus();
-            }}
+            href="/#contact"
+            onClick={() => setOpen(false)}
           >
             Request a trial ↗
-          </button>
+          </Link>
         </nav>
       )}
     </header>

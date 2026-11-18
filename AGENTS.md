@@ -1,7 +1,7 @@
 # SOLID FITNESS website
 
 ## Context and build approach
-Read `docs/scope/scope.md` before work. Goal: more trial requests and WhatsApp enquiries for the Velachery branch. Journey approach: finish discovery to trial request, then enquiries and visits. Checkpoint 01 is implemented: Next.js scaffold, layout, navbar, shared gym config and Call/WhatsApp components. Checkpoint 02 adds the Hero. Checkpoint 03 adds Pricing and enables Plans navigation; other full sections remain pending.
+Read `docs/scope/scope.md` before work. Goal: more trial requests and WhatsApp enquiries for the Velachery branch. Journey approach: finish discovery to trial request, then enquiries and visits. Implemented: shared layout/navigation, Hero, Pricing, Contact with validated WhatsApp handoff, conditional Training/Trainers/Gallery/Testimonials, native FAQ, dedicated Location with click-to-load map, Footer, Privacy, metadata/discovery routes, restrained Pricing reveals and custom not-found recovery. Optional content remains config-driven and omitted in production when unavailable/unapproved. Contact gating and noindex defaults remain mandatory. Owner inputs and browser verification are still pending; this is not a launch approval. Unit tests and Playwright setup exist; see verify.md for actual results and all BLOCKED checks.
 
 ## Stack
 Use Next.js App Router, TypeScript with strict checking, Tailwind CSS and Framer Motion, as selected by the user. Prefer Server Components; add small Client Components only for interaction and motion. No database, payment system or hosting provider is selected. Choose compatible supported versions when scaffolding and commit one package manager lockfile. The scope's older statement that no framework was selected is superseded by this user instruction.
@@ -48,7 +48,7 @@ Provide accurate titles, descriptions, canonical URLs, sitemap, robots policy, s
 Never invent gym data. Use clear placeholders for unknown hours, trainers, qualifications, services, statistics, reviews, trial terms and facilities; do not publish fictional claims as real. Follow the scope's confirmed 29/2 address and four supplied plan totals. Do not add the old ₹500 registration fee or claim taxes or coaching are included without confirmation.
 The user supplied contact number lives in config with status `placeholder` and a TODO to verify it. Contact links are disabled by default, including production builds. Only `NEXT_PUBLIC_CONTACT_PREVIEW=true` explicitly enables placeholder links for review. Keep preview builds noindex and rebuild after changing this flag. Disable unavailable contact actions with an explanation; never invent a destination. Replace placeholders with verified contacts before a live enquiry launch. Do not collect health data or include enquiry values in analytics.
 
-_Drafted by /audit from the scope and user instructions. Updated to reflect checkpoints 01 and 02 and contact preview gating._
+_Drafted by /audit from the scope and user instructions. Current-state summary updated 18 November 2026 after review 02 fixes._
 
 <!-- BEGIN:nextjs-agent-rules -->
 
