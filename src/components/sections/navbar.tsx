@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { BrandLogo } from '@/components/ui/brand-logo';
 import { useRef, useState } from 'react';
 import { CallButton } from '@/components/ui/call-button';
 import { gymConfig } from '@/content/gym-config';
@@ -45,11 +46,8 @@ export function Navbar() {
           className="brand"
           aria-label={`${gymConfig.identity.name} home`}
         >
-          <span className="brand-mark" aria-hidden="true">
-            S
-          </span>
-          <span>
-            <strong>{gymConfig.identity.name}</strong>
+          <span className="brand-identity">
+            <BrandLogo eager />
             <small>
               {gymConfig.identity.branch} / {gymConfig.identity.city}
             </small>

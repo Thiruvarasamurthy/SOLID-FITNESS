@@ -1,4 +1,5 @@
-import Image from 'next/image';
+import { RibbonExperience } from '@/components/motion/ribbon-experience';
+import { RibbonFallback } from '@/components/motion/ribbon-fallback';
 import { gymConfig } from '@/content/gym-config';
 import { contactLinks } from '@/lib/contact-links';
 import { HeroEntrance } from '@/components/motion/hero-entrance';
@@ -36,16 +37,9 @@ export function Hero() {
             </p>
           )}
         </div>
-        <figure className="hero-media">
-          <Image
-            src={gymConfig.hero.image.src}
-            width={gymConfig.hero.image.width}
-            height={gymConfig.hero.image.height}
-            alt={gymConfig.hero.image.alt}
-            loading="eager"
-          />
-          <figcaption>{gymConfig.hero.image.caption}</figcaption>
-        </figure>
+        <RibbonExperience labels={gymConfig.hero.motion}>
+          <RibbonFallback />
+        </RibbonExperience>
       </HeroEntrance>
     </section>
   );

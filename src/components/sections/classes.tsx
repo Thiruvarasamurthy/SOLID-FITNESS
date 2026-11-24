@@ -1,3 +1,4 @@
+import { CardIcon } from '@/components/ui/card-icon';
 import { gymConfig } from '@/content/gym-config';
 import { createProgramWhatsAppLink } from '@/lib/contact-links';
 import { showTraining } from '@/lib/training';
@@ -16,7 +17,8 @@ export function Classes() {
       <h2 id="training-title">{gymConfig.training.heading}</h2>
       {gymConfig.programs.length === 0 ? (
         <div className="training-placeholder">
-          <p className="eyebrow">Content placeholder</p>
+          <CardIcon />
+          <p className="eyebrow">{gymConfig.interface.placeholder}</p>
           <h3>{gymConfig.training.placeholder}</h3>
         </div>
       ) : (
@@ -27,10 +29,11 @@ export function Classes() {
               className="training-card"
               aria-labelledby={`program-${program.id}-title`}
             >
+              <CardIcon />
               <h3 id={`program-${program.id}-title`}>{program.name}</h3>
               {program.description && <p>{program.description}</p>}
               <ContactAction href={createProgramWhatsAppLink(program.name)}>
-                Enquire on WhatsApp
+                {gymConfig.closing.whatsapp}
                 <span className="sr-only"> — {program.name}</span>
               </ContactAction>
             </article>

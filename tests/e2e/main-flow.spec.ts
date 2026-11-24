@@ -70,3 +70,31 @@ test('plan selection, accessible errors and valid WhatsApp handoff', async ({
     page.getByText(/request received|booking confirmed/i),
   ).toHaveCount(0);
 });
+
+test('closing trial action reaches the existing form', async ({ page }) => {
+  await page.goto('/');
+  const closing = page.getByRole('region', { name: gymConfig.closing.heading });
+  await closing.getByRole('link', { name: gymConfig.closing.trial }).click();
+  await expect(page).toHaveURL(/#contact$/);
+  await expect(page.getByRole('form', { name: 'Trial enquiry' })).toBeVisible();
+});
+
+test('pin activation preserves focus in the Visit panel after resize', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 900, height: 1000 });
+  await page.goto('/');
+  const track = page.locator('.story-track');
+  await expect(track).toHaveAttribute('data-pinned', 'false');
+  const visit = page.locator('#story-visit');
+  const link = visit.getByRole('link', {
+    name: gymConfig.story.locationDetails,
+  });
+  await link.focus();
+  await page.setViewportSize({ width: 1280, height: 1000 });
+  await expect(track).toHaveAttribute('data-pinned', 'true');
+  await expect(visit).toHaveAttribute('data-active', 'true');
+  await expect(visit).not.toHaveAttribute('inert');
+  await expect(visit).not.toHaveAttribute('aria-hidden', 'true');
+  await expect(link).toBeFocused();
+});

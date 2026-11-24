@@ -2,6 +2,159 @@
 
 Updated 18 November 2026. Home sections, dedicated Location, Footer, Privacy, SEO, not-found recovery and automated test setup exist. Optional approved content and owner inputs remain pending. Overall browser verification remains BLOCKED. Historical results below retain their dates; later entries supersede affected implementation details.
 
+## Authorized review fixes — 24 November 2026
+
+Owner authorized both fixes after the report-only critique. StoryStage now selects the panel containing document.activeElement in the same React update batch that enables pinning. It preserves the focused DOM node rather than moving focus; the scroll focus guard remains intact. Gallery now renders every photo once in ordinary, visible server HTML. Inactive panels are hidden only after hydration succeeds. Removed the redundant noscript copies, so disabled JavaScript and failed hydration both retain access to all images.
+
+Validation: lint PASS; TypeScript PASS; 71 Vitest tests across 6 files PASS. Updated the gallery SSR regression to assert no hidden panels, no noscript dependency and no duplicated image content. Added a Playwright regression for a focused Visit link while resizing from stacked to pinned. All three e2e tests were attempted but failed at Chromium launch (socket() Operation not permitted); no browser assertions ran. Preview=true production build completed through the Playwright webServer; preview=false production build also completed. No contact logic, flags, content facts, dependency or logo edits.
+
+Browser acceptance remains BLOCKED: actual focus retention, hydration, gallery tabs and mobile reflow. The gallery's readable stacked fallback collapses into tabs after successful hydration; rendered layout shift must be measured with approved photos before release. This change prioritizes access when JavaScript fails and does not claim zero measured CLS. Historical review-03 remains unchanged apart from a dated resolution note.
+
+## Redesign Phase 5 — 23 November 2026
+
+Implementation/automated verification complete with outstanding acceptance blockers. This is not launch approval. Deferred resize work in ribbon-renderer.ts now avoids resizing/redrawing the backing store while paused, offscreen or hidden; pending work applies when rendering resumes. Added scripts/check-motion-bundle.mjs for reproducible gzip and initial HTML tag checks. No dependencies, gym facts, contact gating or preview flags changed in Phase 5. Final critique is report-only in docs/reviews/review-03.md; its findings have not been edited away.
+
+| Check | Result | Evidence / limits |
+| --- | --- | --- |
+| Lint, tsc, changed-file formatting | PASS | Fresh run on 23 November |
+| Unit tests | PASS | 71 tests, 6 files; capability policy, DPR/half resolution, progress mapping, theme math, particle caps/expiry, tab keys and existing contact/SSR behavior |
+| Contrast script | PASS | All 22 source-declared pairs; rendered compositing unverified |
+| Preview=true production build | PASS | Built by Playwright webServer; subsequent HTTP home/privacy/prices/omissions/contact checks passed |
+| Preview=false production build | PASS | Explicit final build; HTTP checks passed, default contact destinations disabled |
+| Three + ribbon chunk | PASS for build/HTML | 4361_hzqp8sby.js: 537,796 raw bytes, 132,303 gzip bytes (129.2 KiB); absent from initial script/preload tags in both modes. Runtime network waterfall not tested |
+| Playwright | BLOCKED / runner failed | Both tests attempted; Chromium launch fails with socket() Operation not permitted before either test executes page steps |
+| Lighthouse 90+ mobile | BLOCKED | No Lighthouse run; no performance score claimed |
+| 360px, frame rate, WebGL behavior, CLS, reduced-motion browser behavior | BLOCKED | No successful browser/device run |
+| Final critique | SOURCE REVIEW ONLY | Two isolated assessments; B provided evidence before final-response interruption. Detector permission failure. No rendered score/overlay; see review-03 |
+
+Source safeguards: idle-only dynamic Three import after WebGL2 context creation and capability approval; reduced motion/saveData/very-low or unknown hardware retain static SVG. Mobile DPR cap 1.75 then half dimensions; desktop cap 2. Visibility/offscreen pause, context-loss fallback until remount, cleanup of RAF/listeners/observers/GPU resources are implemented but runtime behavior is BLOCKED. Reduced motion skips JS entrances/scroll effects and disables CSS animation/transitions. Gallery selection has no animation. No claim of zero measured CLS.
+
+Unresolved report findings: pin activation may hide a focused panel after resize; gallery failed-hydration path exposes only its first photo; some older interface labels remain hard-coded. Owner inputs and final browser checks are listed in review-03. No review fixes, commit or deployment performed.
+
+Skills/decisions: design-taste-frontend preserved the two-area motion hierarchy and static closing reprise; emil-design-eng informed the deferred paused-resize work; ui-ux-pro-max retained explicit light/dark contrast validation and 44px interaction requirements; impeccable supplied the report-only critique and separated source findings from unverified visual claims.
+
+## Redesign Phase 4 — 22 November 2026
+
+Implemented the requested component restyle. Training and trainer cards plus facility gallery cards have a 3px accent top border and decorative icon slot. Existing approval/preview filters are unchanged: empty programs, trainers and gallery remain omitted in production. No gym services, people, photo categories or inclusions were invented.
+
+Gallery uses a small client tab controller around server-rendered image cards. Photo labels come from config; ArrowLeft/Right wrap, Home/End select endpoints, and Tab keeps native navigation. Selection is immediate without animation. Selected state has an underline in addition to color. The initial tab-row space is reserved; only the first image panel displays initially, with remaining images in a noscript fallback. All images remain lazy-loaded. Rendered CLS and assistive-technology behavior are not measured.
+
+All four pricing totals remain unchanged, now in alternating light/dark cards on an off-white pricing section. Accent checks accompany only the factual total-price label, not invented benefits. The existing inclusions/fee-terms note remains. A closing CTA reuses static SVG ribbons with a distinct gradient ID and real trial/WhatsApp actions; no second GPU context is created. Footer section links form a larger grid with matching accent hover/focus rows. New/edited visible labels are config-driven. Contact helper, trial form and sticky-button files were hash-checked unchanged; contact config and preview flags remain unchanged.
+
+| Check | Result | Evidence / limitation |
+| --- | --- | --- |
+| ESLint / TypeScript / changed-file Prettier | PASS | Commands run after implementation; final rerun includes changed e2e source |
+| Vitest | PASS | 71 tests across 6 files; new keyboard-boundary, SSR fallback and unique ribbon-ID cases |
+| Contrast script | PASS | All 22 declared pairs; small accent on dark 5.50:1 or better, deep red on off-white 6.22:1, white on red 4.76:1, light body 17.63:1. Composited browser states unverified |
+| Contact-preview true production build + HTTP | PASS | Home/privacy 200, four totals, two light/two dark cards, closing CTA, unique DOM IDs, approved-content omissions and enabled links |
+| Contact-preview false production build + HTTP | PASS | Same checks with disabled phone/WhatsApp destinations; final compiled output has preview disabled |
+| Playwright browser | BLOCKED | Direct system Chromium launch attempted, failed with process_singleton_posix socket() Operation not permitted. No browser steps ran. Added closing-CTA-to-form test; existing plan/trial test retained |
+| 360px layout, gallery tab focus/selection, no-JS visual path, footer keyboard focus, CTA clearance, reduced motion, CLS | BLOCKED | Source/SSR checks do not establish rendered acceptance |
+| Lighthouse, mid-phone frame rate, WebGL/context loss | BLOCKED | Not run; Phase 5 performance verification remains pending |
+
+Design decisions: design-taste-frontend kept the closing ribbons in a separate visual column and used contrasting pricing cards to establish hierarchy. emil-design-eng kept keyboard tab switching immediate and the closing ribbons static. ui-ux-pro-max informed wrapping 44px tab controls and an underline selected state that does not rely on color. Impeccable remains deferred to the final report-only critique. Clean transparent logo/recolor, statement and approved photos remain owner inputs. No commit or deployment performed. Phase 5 is not started.
+
+## Redesign Phase 3 — 22 November 2026
+
+Added the scoped Training/Plans/Visit story after Hero. Training uses only gymConfig.programs: development/test preview shows its labelled empty placeholder, while production omits the empty Training story entry/panel. With current config, production has Plans and Visit. Existing canonical Classes, Pricing and Location sections/anchors remain intact; overview panel IDs use the distinct story- prefix.
+
+- Native duration radios show the selected plan's en-IN total and the existing PlanEnquiryLink. CSS checked-sibling selection works without JavaScript; no monthly conversions, discounts, badges or invented inclusions. Fee-terms note remains config-driven. Visit derives the unchanged address and validates/omits nullable directions. No map pin was guessed.
+- Desktop CSS sticky is scoped to the story track (top 120px), with 560px slots reserved in both stacked and enhanced desktop layouts. Enhancement requires width ≥1024px, viewport space including 232px clearance, and actual panel/nav content fitting the slot. Oversized content and short viewports retain stacked layout. Mobile, reduced motion and server/no-JS output are stacked. No wheel/touch capture or scroll-hijacking library.
+- Desktop navigation links select a panel immediately; inactive panels remain mounted but inert/aria-hidden and visually hidden. Scrolling updates the active index only while focus is outside the entire story. This prevents scroll from hiding a focused duration radio or CTA. Native links remain functional before hydration. Keyboard runtime acceptance is still BLOCKED.
+- useScroll updates a CSS-variable dark/light/dark decorative wash. Heading, navigation and panels keep opaque light surfaces and established contrasting tokens throughout. Header uses the light theme/original logo while intersecting the story and restores dark afterward; its listener is removed on unmount. No blanket text/background crossfade through low-contrast grays. No flash/jank/CLS result is claimed without a browser.
+- Added nullable gymConfig.statement and the word-emphasis component. Config stays null and the page omits the section. A supplied string renders fully readable server text, with muted-to-foreground word emphasis on scroll; reduced motion restores the final state. Test-only statement fixture was not added to config.
+
+| Check | Result | Evidence |
+| --- | --- | --- |
+| Lint / TypeScript / formatting | PASS | ESLint, tsc --noEmit, build type checks and Prettier checks of changed source |
+| Unit / SSR tests | PASS | 65 tests in 5 files; new coverage for clamped progress, panel mapping, theme math, word count, viewport eligibility, null config, preview placeholder/radio markup and readable statement server output |
+| Production builds | PASS | Both contact-preview true/false builds exited 0; indexing false; final build restored to preview false |
+| HTTP | PASS | Home/privacy 200 in both modes; two production story panels, four native duration radios, exact totals, no Training or null statement section, unique DOM IDs and expected contact destinations |
+| Contrast | PASS for existing token matrix | scripts/check-contrast.mjs passed all 22 combinations. Animated wash contains no unprotected text. Composited browser contrast remains BLOCKED |
+| Protected paths | PASS | SHA-256 confirms contact-links.ts, trial-form.tsx and sticky-whatsapp-button.tsx unchanged; no contact config/preview flags changed. A CSS focus guard prevents the floating control overlapping story controls |
+| Browser / e2e | BLOCKED | Fresh system-Chromium launch failed with socket() failed: Operation not permitted. No browser flow ran |
+| 360px, keyboard/panel focus, radio interaction, header/logo switching, reduced motion, no-JS layout, CLS/jank, FPS, WebGL, Lighthouse | BLOCKED | Source/SSR checks do not establish any rendered or performance result |
+
+One unit-test invocation emitted npm's inherited http-proxy environment warning; tests still passed. Earlier lint/type commands emitted an npm update notice, not source warnings. No package or lockfile changed in this phase.
+
+Skill decisions: design-taste-frontend keeps the sticky sequence bounded to one overview and returns mobile to normal content flow; emil-design-eng keeps selections immediate and freezes automatic panel changes while focus is inside; ui-ux-pro-max informs fixed contrasting text surfaces, native radios and 44px labelled targets. Impeccable remains deferred to the final report-only critique. Phase 1 clean transparent logo is still pending. No Phase 4 restyle, commit or deployment performed.
+
+## Redesign Phase 2 — 19 November 2026
+
+Implemented an original static SVG ribbon composition and faint CSS dot grid in place of the hero's photograph placeholder. The artwork is decorative, not evidence of the facility. Headline, intro and contact actions remain real server-rendered DOM; no contact helpers, trial form, sticky-button logic, preview flags or gym facts changed. Phase 1's clean transparent-logo task remains pending. No scroll-storytelling, tabs or Phase 3/4 restyling has been implemented.
+
+### Implementation and fallback behavior (source review)
+
+- Installed exact matching three 0.187.0 and @types/three 0.187.0 (development types), with normal npm dependency resolution and no force. Only those two direct dependencies were added; their transitive dependencies are in the lockfile.
+- One fullscreen quad, seven bounded concentric curved bands, metallic white/deep-red shading, soft shader edges, slow time drift, damped pointer parallax and a scroll offset clamped to 0.08. Existing Framer Motion useScroll supplies progress. No geometry-heavy scene, texture requests, postprocessing or added animation library.
+- Static SVG renders first without JavaScript. Canvas is aria-hidden/noninteractive and CSS-hidden until renderer initialization, shader/error checks and a first frame succeed. Import failure, rendering error, context loss and reduced-motion/saveData changes restore the SVG. After context loss the static fallback stays for that mount; no automatic GPU restart loop.
+- The renderer import is inside requestIdleCallback after WebGL2/context creation, visible-hero, no reduced motion, saveData not true and hardware checks. Known memory ≤2 GB or cores ≤2 reject enhancement; missing both hardware signals also rejects. With one reliable signal above the threshold and no low signal, enhancement is allowed. No idle API means static fallback. A chunk completing while hidden/offscreen waits for another visible idle callback before drawing.
+- DPR capped at 1.75 below 768px / 2 desktop; mobile backing width and height each multiplied by 0.5 after the cap. Renderer RAF stops offscreen/hidden/user-paused, time freezes across pauses; resize retains a static frame. Unmount removes listeners, observers, idle callbacks and RAFs, disposes geometry/material/renderer and releases context.
+- Desktop cursor ring/trail is loaded separately after ribbon capability approval and only for width ≥1024px, hover/fine pointer, mouse events. Native cursor remains. Trail cap 40, lifetime 420ms, additive small glows. It pauses with the hero and page visibility, clears on focus/Tab/blur/scroll/pointer exit, and clears over actionable controls and Contact. It never intercepts input. No full-page perpetual cursor loop when the hero is out of view.
+- Config-driven pause/resume button controls both enhancements immediately. Button space is reserved inside the artwork; unavailable state preserves an existing focus target. Reduced motion shows static SVG and hides all decorative canvases; existing reduced-motion rules remain in place. No animated text can become permanently hidden.
+
+### Checks and limits
+
+| Check | Result | Evidence |
+| --- | --- | --- |
+| Lint | PASS | Initial unused-parameter warning fixed; rerun exited 0 without warnings |
+| TypeScript | PASS | tsc --noEmit and build type checks |
+| Unit tests | PASS | 57 tests / 4 files; 13 new cases cover capability restrictions, resolution cap, finite scroll mapping, particle cap and expiration |
+| Formatting | PASS | Prettier check of all changed source/test files |
+| Production builds and HTTP | PASS | Both final production builds exited 0 with contact preview true/false and indexing false. Home/privacy HTTP 200 in each mode; server fallback and expected contact URLs verified. Final build restored to contact preview false |
+| Deferred GPU bundle | PASS for built output | Three plus ribbon renderer chunk: 537,751 raw bytes / 132,278 gzip bytes (~129.2 KiB). Not present in initial home script/preload URLs; no Three/WebGL markers found in initial script files. Runtime network waterfall still BLOCKED. Re-measure in Phase 5 |
+| Static content / contact protection | PASS for HTTP/source | Server SVG, real headline/actions, hidden enhancement canvas; preview contact destinations preserved. SHA-256 confirms contact-links.ts, trial-form.tsx and sticky-whatsapp-button.tsx unchanged |
+| Browser/e2e, shader compile/render, context loss recovery, GPU disposal | BLOCKED | System Chromium retried: socket() failed: Operation not permitted. No browser assertions or GPU render tests ran |
+| 360px layout, no CLS, contrast over artwork, focus/press/pause behavior, reduced motion, FPS, Lighthouse | BLOCKED | Requires an actual browser/device. Pure-function tests/build output do not prove these outcomes |
+
+Skill decisions: design-taste-frontend keeps the arcs in a separate right-side composition with an unobstructed text/action column; emil-design-eng informs damped pointer tracking, short-lived trails and immediate pause/focus responses; ui-ux-pro-max informs 44px pause targets, retained native cursor, reduced-motion/data-saving fallbacks and protected touch/form paths. Impeccable final critique remains deferred and report-only. Stop here for continuation; no commit or deployment.
+
+## Redesign Phase 1 status — 19 November 2026
+
+Red/black theme and floating desktop navigation implemented. Phase 1 is PARTIAL: the requested clean transparent dark-logo PNG is not delivered. Two built-in image edit attempts produced damaged/speckled edges and were rejected. Both runtime logo paths currently preserve the exact supplied original bytes; the dark image uses CSS invert/hue-rotate with screen blending as a provisional treatment. No generated logo is shipped. The original is used unchanged on light surfaces. The icon uses the full supplied logo, not a newly invented emblem; small-size legibility is not browser-verified. Owner approval/clean transparent artwork remains needed.
+
+The shared BrandLogo uses config paths and 372×132 dimension attributes, a reserved 40px mobile / 48px desktop box and object-fit contain (the original source ratio is preserved). Navbar loads eagerly; Footer lazily. Theme-specific visibility selects the original on light surfaces. Desktop pill begins at the existing 1280px navigation breakpoint; mobile disclosure state, Escape/focus return, scroll bounds and sticky WhatsApp behavior are unchanged. Light tokens are ready; section-theme transitions belong to Phase 3.
+
+- PASS: lint, TypeScript and all 44 existing unit tests. No dependency installed.
+- PASS: source contrast matrix below (22 combinations), including primary hover, small accent text, supporting/disabled text and control boundaries. Fixed disabled-span hover so it cannot inherit red fill behind muted text. This is not rendered WCAG certification; artwork and decorative dividers are excluded.
+- PASS: SHA-256 comparison confirms contact-links.ts, trial-form.tsx and sticky-whatsapp-button.tsx unchanged. Contact config values/flags were not edited.
+- BLOCKED: actual 360px fit, logo visual quality/CLS, expanded-menu keyboard path, focus visibility, zoom and full composited contrast. System Chromium launch retried: socket() failed: Operation not permitted; no browser steps ran.
+- BLOCKED: Lighthouse, frame rate and WebGL behavior. No WebGL/scroll-story implementation or test claimed in Phase 1.
+- PASS: both final production builds (contact preview true/false, indexing false), exit 0. In both modes home, privacy, icon and both logo asset URLs returned HTTP 200; page markup includes 372×132 logo dimensions and the expected enabled/disabled contact destinations. Final build restored to contact preview false. Formatting check PASS. Historical results remain unchanged.
+
+Skill decisions: design-taste-frontend confines the pill treatment to desktop navigation and keeps the brand aligned with existing edges; emil-design-eng preserves immediate Escape/focus behavior and 100ms press feedback rather than adding menu choreography; ui-ux-pro-max informs separate small-text reds on dark/light and a 4.5:1 minimum for all normal text pairs. Impeccable critique remains deferred to the final phase, report-only.
+
+### Phase 1 contrast matrix
+
+Run `node scripts/check-contrast.mjs` to reproduce; values are read from the stylesheet's root tokens.
+
+| Pair | Colors | Ratio | Required | Result |
+| --- | --- | --- | --- | --- |
+| foreground on background | #f5f2eb / #090b0d | 17.63:1 | 4.5:1 | PASS |
+| muted on background | #b3b6ba / #090b0d | 9.68:1 | 4.5:1 | PASS |
+| accent-text on background | #ff4d4d / #090b0d | 6.03:1 | 4.5:1 | PASS |
+| focus on background | #ffb3b6 / #090b0d | 11.62:1 | 4.5:1 | PASS |
+| control boundary on background | #8b9096 / #090b0d | 6.13:1 | 3:1 | PASS |
+| large accent on background | #e21b23 / #090b0d | 4.14:1 | 3:1 | PASS |
+| foreground on surface | #f5f2eb / #14171b | 16.08:1 | 4.5:1 | PASS |
+| muted on surface | #b3b6ba / #14171b | 8.83:1 | 4.5:1 | PASS |
+| accent-text on surface | #ff4d4d / #14171b | 5.50:1 | 4.5:1 | PASS |
+| focus on surface | #ffb3b6 / #14171b | 10.59:1 | 4.5:1 | PASS |
+| control boundary on surface | #8b9096 / #14171b | 5.59:1 | 3:1 | PASS |
+| large accent on surface | #e21b23 / #14171b | 3.78:1 | 3:1 | PASS |
+| light-ink on light | #090b0d / #f5f2eb | 17.63:1 | 4.5:1 | PASS |
+| light-muted on light | #45494f / #f5f2eb | 8.10:1 | 4.5:1 | PASS |
+| accent-deep on light | #b3121a / #f5f2eb | 6.22:1 | 4.5:1 | PASS |
+| light control boundary | #6c7178 / #f5f2eb | 4.40:1 | 3:1 | PASS |
+| light-ink on light | #090b0d / #ffffff | 19.71:1 | 4.5:1 | PASS |
+| light-muted on light | #45494f / #ffffff | 9.06:1 | 4.5:1 | PASS |
+| accent-deep on light | #b3121a / #ffffff | 6.96:1 | 4.5:1 | PASS |
+| light control boundary | #6c7178 / #ffffff | 4.92:1 | 3:1 | PASS |
+| button / skip text on accent | #ffffff / #e21b23 | 4.76:1 | 4.5:1 | PASS |
+| button / skip text on accent-hover | #ffffff / #c91820 | 5.78:1 | 4.5:1 | PASS |
+
+Source-declared text pairs and control boundaries, including hover, focus and disabled text. Decorative dividers and logo artwork are not text-contrast assertions. Rendered/composited state coverage requires a browser.
+
 ## Current status summary
 
 | Check | Result | Evidence |
@@ -10,7 +163,7 @@ Updated 18 November 2026. Home sections, dedicated Location, Footer, Privacy, SE
 | Placeholder contact gating | PASS | Default build has no tel or wa.me anchors; explicit preview flag enables them |
 | Plan-specific WhatsApp messages | PASS | Checkpoint 04 helper execution and preview HTML |
 | Trial form and WhatsApp handoff | IMPLEMENTED; browser BLOCKED | Helper validation executed; interactions, popup and clipboard behavior untested in a browser |
-| Automated tests | UNIT PASS; E2E BLOCKED | Vitest: 44 tests pass across 3 files. Playwright main-flow test added; browser launch fails before any steps run. See automated test validation below |
+| Automated tests | UNIT PASS; E2E BLOCKED | Vitest: 71 tests pass across 6 files (Phase 4). Playwright main-flow test added; browser launch fails before any steps run. See automated test validation below |
 | Responsive 360, 768, 1280, 1920px | BLOCKED | No rendered viewport verification yet |
 | Keyboard, focus, console, reduced motion at runtime | BLOCKED | No functioning browser available |
 | Later sections and routes | IMPLEMENTED; browser BLOCKED | Location/map component, Footer, Privacy, SEO and not-found recovery exist. Owner data remains pending; Why Solid Fitness remains deferred |

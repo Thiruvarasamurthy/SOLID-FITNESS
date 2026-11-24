@@ -1,7 +1,7 @@
 # SOLID FITNESS website architecture
 
-**Status:** In Progress. Layout and navbar checkpoint authorized by the user; later sections await review.
-**Date:** 15 November 2026.
+**Status:** Existing implementation through review 02 fixes; redesign Phase 1 theme/navigation and Phase 2 static-first ribbons/cursor implemented. Clean transparent logo remains pending. Phase 3 scoped story/theme and nullable statement are implemented. Phase 4 card/gallery/pricing/CTA/footer restyling is implemented. Phase 5 implementation and automated checks are complete; browser/performance acceptance and review-03 findings remain outstanding. Browser acceptance remains BLOCKED.
+**Date:** Originally 15 November 2026; redesign decisions updated 18 November 2026.
 **Inputs:** `AGENTS.md`, `docs/scope/scope.md`, `docs/scope/old-site-audit.md`, the supplied reel screenshots and video.
 
 This specification defines the first release for the Velachery branch. Recommendations are concrete enough to build, with missing business facts kept explicit. It does not install dependencies, choose hosting or implement code.
@@ -14,7 +14,7 @@ This specification defines the first release for the Velachery branch. Recommend
 | Content source | One typed `src/content/gym-config.ts` file | Shared facts cannot drift between pricing, contact, metadata and structured data |
 | Trial flow | Form prepares an editable WhatsApp message, no server submission in v1 | Uses the intended staff enquiry channel without introducing an unchosen inbox or database |
 | Rendering | Server rendered content with small interactive client components | Keeps useful content available early and limits JavaScript |
-| Motion | Optional athlete media plus restrained section reveals | Captures the reel's style while protecting readability and phone performance |
+| Motion | Static-first ribbon shader and bounded scroll story per section 5 | Owner-authorized enhancement with strict fallback and resource limits |
 | Location | Verified branch map embed and Google Business link | Correct directions fix the old site's most damaging branch ambiguity |
 | Unknown content | Clearly marked preview placeholders, unpublished claims omitted at launch | Makes the design reviewable without inventing gym facts |
 
@@ -140,26 +140,54 @@ Validate config during build: unique IDs, positive prices and durations, valid a
 
 Trial form data is separate from public config: name (required, 1 to 80 trimmed characters), contact mobile (required, validated and normalized without rejecting valid international formats), optional preferred date/time text (up to 120 characters), optional plan ID constrained to existing plan IDs. No health details, freeform medical questions, file uploads or member account. Data exists only in page memory; do not use cookies, local storage, query parameters or analytics for its values.
 
-## 5. Animation plan based on the reel
+## 5. Authorized visual and motion architecture — 18 November 2026
 
-The source shows a changing athlete exercise pose and scale, hero text disappearing and returning, followed by ordinary content sections. It does not prove the original rendering technique or scroll trigger. The plan below is a proposed adaptation, not a claim about the source implementation.
+This replaces the earlier athlete-media/no-WebGL plan. The new 13 reference frames and 48.68-second recording supply composition and motion direction only. Screenshots and sampled recording frames were inspected; they do not establish the source's actual technology or precise timing. Never copy its code, text, logos, assets, sliders or tech marquee.
 
-| Element | Where and what moves | Proposed behavior | One line justification |
-| --- | --- | --- | --- |
-| Hero text | Initial headline, introduction and CTA group | One entrance using opacity and up to 16px vertical movement over 350ms, no delay on access | Suggests the reel's dramatic entry without hiding conversion content |
-| Athlete | Hero media area | If a licensed compatible clip is supplied, play a muted inline exercise loop after the poster is ready, with a visible pause control; pause offscreen | Video gives controllable motion without assuming a 3D or frame sequence pipeline |
-| Athlete framing | Desktop hero only | Optional scroll linked scale from 1 to at most 1.05 within the hero bounds, no fixed scroll pinning | Provides depth without creating a long animation gate |
-| Hero return | Visitor scrolls back | Headline and CTAs remain visible; media resumes only if visitor had not paused it | Preserves the reel's return composition without a frustrating reset |
-| Section heading and cards | About through Contact | Reveal once on entering viewport, opacity plus up to 16px shift, 250 to 350ms, card stagger at most 60ms | Adds hierarchy without turning the page into a slow sequence |
-| Buttons and cards | Pointer hover and keyboard focus | 120 to 180ms color/border feedback; optional 2px lift on pointer hover only | Gives feedback while leaving layout and touch behavior stable |
-| Mobile menu | Navigation | Short opacity/translation transition around 180ms; focus moves immediately | Keeps phone navigation fast and keyboard accessible |
-| Map and form | Location and Contact | No decorative animation; reserve map dimensions and announce status text | Functional content should not move during a decision or error recovery |
+### Boundaries and data
 
-Use Framer Motion for UI motion, not for decoding or synthesizing exercise poses. Prefer an ease out curve for entrances; never add motion to every keystroke. The hero image remains the default until an acceptable asset is supplied; do not stretch or crop the reel recording into a hero video. No custom 3D model, WebGL pipeline or large frame sequence is in v1.
+Server Components continue to render all content, static ribbons and section-specific dark/light defaults. Isolated Client Components add a lazy ribbon renderer, pointer decoration, story selection, scroll-derived theme variables, approved statement reveal and gallery tabs. Do not wrap the entire page in a client canvas. Keep canvas aria-hidden and pointer-events none; the visual never carries essential text or links.
 
-On phones default to the poster until the optional video can load without harming initial content. Reduced motion shows the static poster, skips transforms and disables automatic playback. Data constrained or failed media also uses the poster. All content is visible if JavaScript or motion fails. Controls need readable contrast and accessible names. No copied athlete, testimonials, statistics or identity assets from the reference.
+Only new dependencies allowed: three and development-only @types/three, compatible with the installed stack and lockfile, no --force. Existing Framer Motion useScroll supplies progress; CSS position: sticky supplies desktop pinning. No R3F, GSAP, Lenis, global scroll smoothing or scroll hijacking.
 
-**Why:** Exact visual imitation is less useful than a fast, truthful page that reliably produces enquiries.
+All new labels/templates live in gym-config.ts. Add nullable statement text, logo variants and only necessary typed display fields; preserve existing approval filters, contact gates and preview flags. A null statement renders no section. Training stays empty until approved. In production omit its unavailable panel/list entry rather than expose a placeholder; with three real items available the story has Training, Plans, Visit. Do not confuse the contact-preview flag with permission to publish placeholder content.
+
+### Composition and interaction
+
+| Area | Decision | Static/accessibility behavior |
+| --- | --- | --- |
+| Hero | Fullscreen quad fragment shader, several curved concentric bands, soft edges, white-to-deep-red shading, slow drift, bounded pointer parallax and small scroll offset; faint CSS dots below | Static CSS/SVG first, real DOM headline/intro/actions above, dimensions reserved, pause control for continuous motion |
+| Cursor | Fine-pointer desktop only, small ring and additive short-lived particles, maximum 40 live | Native cursor retained; no hit testing, focus obstruction or touch trail; disabled for reduced motion |
+| Story | Left Training/Plans/Visit controls and right corresponding panel; sticky only inside its container on desktop | Keyboard buttons work immediately; no focus moves caused by scroll. Suspend automatic panel changes while focus is inside interactive content; never unmount a focused control. Mobile, no-JS and reduced-motion paths stack content |
+| Plans panel | Duration picker reads existing plans and en-IN total formatting | No discount, monthly conversion, invented inclusions or badge; preserve contact handoff |
+| Visit panel | Existing structured address and nullable approved directions | Omit unavailable external links; no guessed map/coordinates |
+| Themes | Dark → light → dark section defaults, useScroll maps bounded progress to CSS variables | Stable readable text surfaces throughout interpolation; correct logo variant; no flash on hydration; reduced motion uses static themes |
+| Statement | One centered config sentence, word-by-word emphasis on scroll | Omitted when null; full text readable without JS and in final state for reduced motion/failure |
+| Cards/gallery | 3px red top edges; accessible Facility/Gallery tabs with roles, linked panels, roving tabindex, arrows/Home/End | Approved records only; labelled preview placeholders only; no auto-rotation; no-JS content remains available |
+| Pricing/closing/footer | Alternating light/dark plan cards, truthful check bullets, closing ribbon motif and existing trial/WhatsApp actions, footer link columns | Static closing ribbons by default; no second simultaneous WebGL context; keyboard-visible hover equivalents and sticky CTA clearance |
+
+Story height follows actual content; no artificially long scroll gate. Allow CSS sticky only when the content fits the available viewport. No pinning or transformations on Contact, trial form, map controls or the global sticky WhatsApp button. Preserve anchors and IDs without duplicate targets when reusing content in the story.
+
+### Performance and fallback contract (enforce from first effect implementation)
+
+- Import Three dynamically on idle only after WebGL2 succeeds, reduced motion is off, saveData is not true and hardware is not very low. Conservative low-hardware rule: reported deviceMemory ≤2 GB or hardwareConcurrency ≤2 disables enhancement; unknown signals do not establish capability, so retain static fallback if reliable capability cannot be established. Test this policy as a pure function.
+- Never preload Three or place it in the initial route bundle. Measure and report all effect/Three chunk gzip bytes and initial-bundle separation in Phase 5; no numeric gzip result is known yet. No invented byte cap substitutes for the first-load Lighthouse 90+ acceptance target.
+- One fullscreen quad, bounded shader loops, no heavy mesh, texture downloads or postprocessing. At most one live WebGL context; closing motif is static. DPR cap 1.75 below 768px / 2 desktop; below 768px multiply both capped backing-buffer dimensions by 0.5, keeping CSS size unchanged.
+- Stop render/particle loops while offscreen or document.hidden; freeze time across pauses, clear trails on pointer exit, cap live particles at 40, and use no React state updates per animation frame. Pause controls stop all continuous decorative motion.
+- On context loss, renderer/import failure or capability change, retain/restore the static fallback. Swap only after a successful frame. Clean up RAFs, idle callbacks, observers, listeners, renderer, geometry and materials on unmount. Reserve size so enhancement causes no CLS.
+- Reduced motion means no animation anywhere: static ribbons, no trail/parallax/theme interpolation/reveals/smooth scrolling/press transforms. Use final readable states and support a preference change while mounted.
+- Preserve Lighthouse mobile 90+ first-load target and existing Core Web Vitals goals. Record real runs/settings; inspect intermediate theme contrast and 360px layout. Simplify or disable enhancements if measured budgets fail rather than weakening contact access or accessibility.
+
+### Phase gates and evidence
+
+0. Documentation decisions only; stop for “continue”.
+1. Theme/logo and floating desktop navigation; script-check actual WCAG color pairs and report ratios; skip already-complete parts after inspection.
+2. Hero ribbons and desktop cursor with static-first fallback and the above capability/resource limits from day one.
+3. Scoped story, section themes and nullable statement; mobile stacks and keyboard path retained.
+4. Cards, accessible gallery tabs, pricing, final CTA and footer restyle; no new gym facts.
+5. Pure-function Vitest tests for capability detection, progress mapping, theme math, particle caps and tab keys; update Playwright only for changed flows. Run lint, tsc, unit tests and both contact-preview builds. Measure gzip/initial bundle and real Lighthouse when possible. Update verify.md with actual outcomes and retain historical BLOCKED results. Impeccable performs final critique as a report only; do not silently fix its findings.
+
+Stop after every phase and wait for “continue”. Browser checks remain BLOCKED until performed: mid-phone frame rate, 360px/no overflow, reduced motion, keyboard story path, tabs, context loss/recovery, no-JS, focus/CTA clearance, and Lighthouse. Final handoff must list these checks and pending logo recolor, approved statement and photo permissions, alongside existing contact/trial/terms/location/privacy/domain launch approvals.
 
 ## 6. SEO and local discovery
 
@@ -235,11 +263,11 @@ Track only generic CTA type, placement and public plan ID if analytics is later 
 
 ## Consequences and open launch inputs
 
-The config approach requires a reviewed content change and redeploy rather than a CMS editor. The WhatsApp approach provides no server stored leads or automatic delivery confirmation. Optional athlete motion depends on approved media and may remain a static poster. These tradeoffs keep v1 small and maintainable.
+The config approach requires a reviewed content change and redeploy rather than a CMS editor. The WhatsApp approach provides no server stored leads or automatic delivery confirmation. Ribbon enhancement depends on device capability and measured performance and may remain static. These tradeoffs keep v1 small and maintainable.
 
 Before live launch you must provide or approve: real contact destinations, trial availability and terms, plan inclusions and taxes, current hours, exact map pin and embed, Google Business URL, domain deployment ownership and approved brand/media assets. Trainers, programs and reviews stay conditional until approved. English first remains the scope assumption; Tamil is deferred.
 
-No scope feature is marked built or accepted by this document. The scope's framework undecided note is superseded by the stack explicitly chosen in your later audit request and AGENTS.md; the scope otherwise remains unchanged.
+Implementation history is recorded in verify.md; this decision update is not browser acceptance or launch approval. The scope's framework undecided note is superseded by the stack explicitly chosen in your later audit request and AGENTS.md; the scope otherwise remains unchanged.
 
 ## Decision references
 

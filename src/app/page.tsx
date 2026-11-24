@@ -1,6 +1,9 @@
+import { ClosingCta } from '@/components/sections/closing-cta';
 import { gymConfig } from '@/content/gym-config';
 import { exerciseGym, pageMetadata, serializeJsonLd } from '@/lib/seo';
 import { Location } from '@/components/sections/location';
+import { ScrollStory } from '@/components/sections/scroll-story';
+import { StatementReveal } from '@/components/motion/statement-reveal';
 import { Hero } from '@/components/sections/hero';
 import { Classes } from '@/components/sections/classes';
 import { Gallery } from '@/components/sections/gallery';
@@ -23,6 +26,10 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: serializeJsonLd(exerciseGym) }}
       />
       <Hero />
+      <ScrollStory />
+      {gymConfig.statement?.trim() && (
+        <StatementReveal text={gymConfig.statement} />
+      )}
       <Classes />
       <Gallery />
       <Trainers />
@@ -31,6 +38,7 @@ export default function Home() {
       <Faq />
       <Contact />
       <Location />
+      <ClosingCta />
     </main>
   );
 }

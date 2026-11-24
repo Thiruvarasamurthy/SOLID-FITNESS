@@ -66,7 +66,20 @@ const rupees = new Intl.NumberFormat('en-IN', {
 });
 
 export const gymConfig = {
-  identity: { name: 'SOLID FITNESS', branch: 'Velachery', city: 'Chennai' },
+  identity: {
+    name: 'SOLID FITNESS',
+    branch: 'Velachery',
+    city: 'Chennai',
+    logo: {
+      src: '/images/solid-fitness-logo.png',
+      lightSrc: '/images/solid-fitness-logo-original.png',
+      width: 372,
+      height: 132,
+      alt: 'SOLID FITNESS',
+      // TODO: Supply a clean transparent PNG; dark src currently preserves the original
+      // with CSS treatment. Owner approval of recolor is still required before launch.
+    },
+  },
   address,
   contact: {
     // TODO: Verify or replace this user supplied placeholder before launch.
@@ -84,6 +97,21 @@ export const gymConfig = {
     previewNote: 'Preview contact number — verification pending.',
   },
   plans,
+  // Owner-approved factual statement only; null omits the entire reveal.
+  statement: null as string | null,
+  story: {
+    heading: 'Plan your visit',
+    training: 'Training',
+    plans: 'Plans',
+    visit: 'Visit',
+    chooseDuration: 'Choose a plan duration',
+    month: 'month',
+    months: 'months',
+    total: 'Total plan price',
+    enquire: 'Enquire about plan',
+    directions: 'Get Directions',
+    locationDetails: 'View location details',
+  },
   faqSection: {
     heading: 'Questions before your visit',
     pendingAnswer: 'To be confirmed.',
@@ -142,11 +170,37 @@ export const gymConfig = {
     handoff:
       'Send your message in WhatsApp. The gym will confirm availability.',
   },
+  closing: {
+    heading: 'Plan your visit to SOLID FITNESS',
+    trial: 'Request a Trial',
+    whatsapp: 'Enquire on WhatsApp',
+  },
+  interface: {
+    placeholder: 'Content placeholder',
+    credentials: 'Verified credentials',
+    coaching: 'Ask about coaching',
+  },
+  footer: {
+    explore: 'Explore',
+    visit: 'Visit',
+    contact: 'Get in touch',
+    home: 'Home',
+    faq: 'FAQ',
+    contactLink: 'Contact',
+    privacy: 'Privacy',
+    instagram: 'Instagram',
+    whatsapp: 'WhatsApp',
+  },
   pricing: {
     heading: 'Membership plans',
     note: 'Inclusions and fee terms to be confirmed.',
   },
   hero: {
+    motion: {
+      pause: 'Pause decorative motion',
+      resume: 'Resume decorative motion',
+      unavailable: 'Static artwork',
+    },
     eyebrow: 'VELACHERY · CHENNAI',
     intro:
       'Find us on the second floor in Tansi Nagar, off Taramani Link Road. Get in touch to learn about membership plans.',
@@ -177,6 +231,7 @@ export const gymConfig = {
   testimonials: [] as Testimonial[],
   gallerySection: {
     heading: 'Facility gallery',
+    photoLabel: 'Photo',
     visitLabel: 'Plan Your Visit',
     locationHeading: 'Location',
     placeholder: {

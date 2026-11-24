@@ -1,3 +1,4 @@
+import { CardIcon } from '@/components/ui/card-icon';
 import Image from 'next/image';
 import { gymConfig } from '@/content/gym-config';
 import { approvedTrainers, showTrainers } from '@/lib/trainers';
@@ -17,7 +18,8 @@ export function Trainers() {
       <h2 id="trainers-title">{gymConfig.trainersSection.heading}</h2>
       {approvedTrainers.length === 0 ? (
         <div className="training-placeholder">
-          <p className="eyebrow">Content placeholder</p>
+          <CardIcon />
+          <p className="eyebrow">{gymConfig.interface.placeholder}</p>
           <h3>{gymConfig.trainersSection.placeholder}</h3>
         </div>
       ) : (
@@ -28,6 +30,7 @@ export function Trainers() {
               className="training-card trainer-card"
               aria-labelledby={`trainer-${trainer.id}-title`}
             >
+              <CardIcon />
               <Image
                 src={trainer.photo.src}
                 alt={trainer.photo.alt}
@@ -43,7 +46,7 @@ export function Trainers() {
               ) && (
                 <ul
                   className="trainer-credentials"
-                  aria-label="Verified credentials"
+                  aria-label={gymConfig.interface.credentials}
                 >
                   {trainer.credentials
                     .filter((credential) => credential.verified === true)
@@ -53,7 +56,7 @@ export function Trainers() {
                 </ul>
               )}
               <ContactAction href={createCoachingWhatsAppLink(trainer.id)}>
-                Ask about coaching
+                {gymConfig.interface.coaching}
                 <span className="sr-only"> — {trainer.name}</span>
               </ContactAction>
             </article>

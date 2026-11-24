@@ -27,19 +27,29 @@ export function Pricing() {
             as="article"
             delay={index * 0.02}
             key={plan.id}
-            className="plan-card"
+            className={`plan-card${index % 2 === 0 ? ' plan-card-light' : ''}`}
             labelledBy={`${plan.id}-title`}
           >
             <h3 id={`${plan.id}-title`}>
-              {plan.months} {plan.months === 1 ? 'month' : 'months'}
+              {plan.months}{' '}
+              {plan.months === 1
+                ? gymConfig.story.month
+                : gymConfig.story.months}
             </h3>
             <p className="plan-price">{rupees.format(plan.price)}</p>
-            <p className="plan-total">Total plan price</p>
+            <ul className="plan-facts">
+              <li>
+                <span aria-hidden="true">✓</span> {gymConfig.story.total}
+              </li>
+            </ul>
             <PlanEnquiryLink planId={plan.id}>
-              Enquire about plan
+              {gymConfig.story.enquire}
               <span className="sr-only">
                 {' '}
-                — {plan.months} {plan.months === 1 ? 'month' : 'months'}
+                — {plan.months}{' '}
+                {plan.months === 1
+                  ? gymConfig.story.month
+                  : gymConfig.story.months}
               </span>
             </PlanEnquiryLink>
             {createPlanWhatsAppLink(plan.months) && (
@@ -47,10 +57,13 @@ export function Pricing() {
                 className="plan-whatsapp"
                 href={createPlanWhatsAppLink(plan.months) ?? undefined}
               >
-                Enquire on WhatsApp
+                {gymConfig.closing.whatsapp}
                 <span className="sr-only">
                   {' '}
-                  — {plan.months} {plan.months === 1 ? 'month' : 'months'}
+                  — {plan.months}{' '}
+                  {plan.months === 1
+                    ? gymConfig.story.month
+                    : gymConfig.story.months}
                 </span>
               </a>
             )}
