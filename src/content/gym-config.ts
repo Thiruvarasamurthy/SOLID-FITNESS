@@ -76,8 +76,6 @@ export const gymConfig = {
       width: 372,
       height: 132,
       alt: 'SOLID FITNESS',
-      // TODO: Supply a clean transparent PNG; dark src currently preserves the original
-      // with CSS treatment. Owner approval of recolor is still required before launch.
     },
   },
   address,
