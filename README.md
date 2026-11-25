@@ -57,3 +57,6 @@ Testimonials uses gymConfig.testimonials records with id, quote, displayName, so
 ## FAQ section
 
 FAQ uses typed gymConfig.faq entries: id, question, status (confirmed/unconfirmed), and answer (string for confirmed, null for unconfirmed). Confirmed address/prices derive from shared config values backed by scope. Pending topics appear only in development as “To be confirmed.” Native details/summary work without component JavaScript; the closing WhatsApp CTA follows existing contact gating. Browser interaction and 360px verification remain blocked.
+
+new one !
+
