@@ -41,6 +41,7 @@ for (const bg of [tokens['light-surface'], '#ffffff']) {
 }
 for (const bg of ['accent', 'accent-hover'])
   check(`button / skip text on ${bg}`, tokens['on-accent'], tokens[bg]);
+check('pricing-note on cream', '#45494f', '#f5f2eb');
 console.log(
   '| Pair | Colors | Ratio | Required | Result |\n| --- | --- | --- | --- | --- |\n' +
     rows.join('\n'),

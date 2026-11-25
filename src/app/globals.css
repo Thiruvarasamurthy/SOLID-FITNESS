@@ -91,12 +91,6 @@ a {
   height: 100%;
   object-fit: contain;
 }
-/* Intact source fallback: generated transparent edits were rejected for edge damage.
-   Replace with an owner-approved transparent PNG and remove this treatment. */
-.brand-logo-dark {
-  filter: invert(1) hue-rotate(180deg);
-  mix-blend-mode: screen;
-}
 .brand-logo-light {
   display: none;
 }
@@ -1345,7 +1339,7 @@ body:has(.gallery :focus) .sticky-whatsapp {
   color: var(--light-ink);
   padding: 32px 20px;
 }
-.pricing-note {
+.checkpoint .pricing-note {
   color: var(--light-muted);
 }
 .plan-card {
