@@ -1,11 +1,10 @@
 import { gymConfig } from '@/content/gym-config';
 import { contactLinks } from '@/lib/contact-links';
 import { ContactAction } from '@/components/ui/contact-action';
-import { RibbonFallback } from '@/components/motion/ribbon-fallback';
 
 export function ClosingCta() {
   return (
-    <section className="closing-cta" aria-labelledby="closing-title">
+    <section className="closing-cta" data-bg-section="closing" aria-labelledby="closing-title">
       <div className="closing-copy">
         <h2 id="closing-title">{gymConfig.closing.heading}</h2>
         <p>{gymConfig.hero.trialNote}</p>
@@ -20,9 +19,6 @@ export function ClosingCta() {
             {gymConfig.closing.whatsapp}
           </ContactAction>
         </div>
-      </div>
-      <div className="closing-art">
-        <RibbonFallback id="closing-ribbon-metal" />
       </div>
     </section>
   );

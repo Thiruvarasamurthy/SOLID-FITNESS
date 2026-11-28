@@ -28,7 +28,7 @@ export function Location() {
       : null;
   return (
     <section
-      id="location"
+      id="location" data-bg-section="location"
       className="training location"
       aria-labelledby="location-title"
       tabIndex={-1}

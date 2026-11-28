@@ -1,3 +1,4 @@
+import { BackgroundStage } from '@/components/motion/background-stage';
 import { ClosingCta } from '@/components/sections/closing-cta';
 import { gymConfig } from '@/content/gym-config';
 import { exerciseGym, pageMetadata, serializeJsonLd } from '@/lib/seo';
@@ -25,6 +26,7 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: serializeJsonLd(exerciseGym) }}
       />
+      <BackgroundStage />
       <Hero />
       <ScrollStory />
       {gymConfig.statement?.trim() && (

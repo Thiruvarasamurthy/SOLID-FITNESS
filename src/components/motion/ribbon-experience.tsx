@@ -205,7 +205,7 @@ export function RibbonExperience({
   }, [scrollYProgress]);
 
   return (
-    <div ref={host} className="ribbon-art">
+    <div ref={host} className="ribbon-art" data-motion-paused={isPaused}>
       {children}
       <canvas ref={canvas} className="ribbon-canvas" aria-hidden="true" />
       <button

@@ -468,6 +468,20 @@ a {
 }
 .hero-copy {
   min-width: 0;
+  background: rgba(9, 11, 13, 0.9);
+  border: 1px solid var(--border);
+  padding: clamp(24px, 6vw, 48px);
+  color: var(--foreground);
+}
+.hero-copy p,
+.hero-copy .eyebrow {
+  color: var(--foreground);
+}
+.hero-copy .button,
+.hero-copy .button-secondary,
+.site-header .contact-disabled,
+.site-header .brand small {
+  color: var(--foreground);
 }
 .hero h1 {
   max-width: 12ch;
@@ -1017,16 +1031,7 @@ body:has(.privacy-page :focus) .sticky-whatsapp {
 .hero {
   position: relative;
   isolation: isolate;
-}
-.hero::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background-image: radial-gradient(circle, #f5f2eb12 0.7px, transparent 0.8px);
-  background-size: 22px 22px;
-  mask-image: linear-gradient(to right, transparent, #000);
+  min-height: 100svh;
 }
 .hero-copy {
   position: relative;
@@ -1095,17 +1100,17 @@ body:has(.privacy-page :focus) .sticky-whatsapp {
   }
 }
 
-/* Phase 3: stable light text surfaces over a scroll-driven decorative wash. */
 .scroll-story {
-  margin-top: 64px;
-  padding: 24px;
-  background: var(--story-wash, var(--light-surface));
+  margin-top: clamp(64px, 10vh, 120px);
+  padding-block: clamp(64px, 10vh, 120px);
+  padding-inline: 20px;
+  background: rgba(9, 11, 13, 0.78);
+  border: 1px solid var(--border);
   min-width: 0;
 }
 .scroll-story h2 {
   margin: 0 0 32px;
   padding: 16px;
-  background: var(--light-surface);
   font-family: var(--font-display);
   font-size: clamp(32px, 4vw, 56px);
   line-height: 1;
@@ -1121,7 +1126,8 @@ body:has(.privacy-page :focus) .sticky-whatsapp {
 .story-nav {
   display: grid;
   align-content: start;
-  background: var(--light-surface);
+  background: rgba(9, 11, 13, 0.78);
+  border: 1px solid var(--border);
   padding: 16px;
 }
 .story-nav a {
@@ -1143,7 +1149,8 @@ body:has(.privacy-page :focus) .sticky-whatsapp {
 .story-panel {
   min-width: 0;
   padding: 24px;
-  background: var(--light-surface);
+  background: rgba(9, 11, 13, 0.78);
+  border: 1px solid var(--border);
   overflow-wrap: anywhere;
 }
 .story-panel h3 {
@@ -1232,9 +1239,13 @@ body:has(.privacy-page :focus) .sticky-whatsapp {
   color: var(--word-ink, var(--foreground));
 }
 @media (min-width: 1024px) {
+  .scroll-story,
+  .pricing {
+    backdrop-filter: blur(8px);
+  }
   .scroll-story {
-    margin-top: 96px;
-    padding: 32px;
+    padding-block: clamp(64px, 10vh, 120px);
+    padding-inline: 48px;
   }
   .story-stage {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.7fr);
@@ -1266,9 +1277,6 @@ body:has(.privacy-page :focus) .sticky-whatsapp {
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .scroll-story {
-    background: var(--light-surface);
-  }
   .statement [data-word] {
     color: var(--foreground);
   }
@@ -1349,23 +1357,27 @@ body:has(.gallery :focus) .sticky-whatsapp {
 }
 
 .pricing {
-  background: var(--light-surface);
-  color: var(--light-ink);
-  padding: 32px 20px;
+  background: rgba(9, 11, 13, 0.78);
+  color: var(--foreground);
+  padding-block: clamp(64px, 10vh, 120px);
+  padding-inline: 20px;
+  border: 1px solid var(--border);
 }
 .pricing-note {
-  color: var(--light-muted);
+  color: var(--muted);
 }
 .plan-card {
   display: flex;
   flex-direction: column;
+  border: 1px solid var(--border);
   border-top: 3px solid var(--accent);
+  background: rgba(9, 11, 13, 0.78);
   color: var(--foreground);
 }
 .plan-card-light {
-  background: var(--light-surface);
+  background: rgba(245, 242, 235, 0.94);
   color: var(--light-ink);
-  border-color: #6c7178;
+  border: 1px solid var(--border);
   border-top-color: var(--accent);
   --focus: var(--accent-deep);
 }
@@ -1398,7 +1410,7 @@ body:has(.gallery :focus) .sticky-whatsapp {
 .closing-cta {
   position: relative;
   isolation: isolate;
-  margin-top: 64px;
+  margin-top: clamp(64px, 10vh, 120px);
   border-block: 1px solid var(--border);
   display: grid;
   background: var(--background);
@@ -1406,7 +1418,7 @@ body:has(.gallery :focus) .sticky-whatsapp {
 .closing-copy {
   position: relative;
   z-index: 1;
-  padding: 48px 0;
+  padding-block: clamp(64px, 10vh, 120px);
   min-width: 0;
 }
 .closing-copy h2 {
@@ -1466,19 +1478,14 @@ body:has(.closing-cta :focus) .sticky-whatsapp {
 }
 @media (min-width: 768px) {
   .pricing {
-    padding: 48px 32px;
+    padding-block: clamp(64px, 10vh, 120px);
+    padding-inline: 32px;
   }
   .closing-cta {
     grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
   }
-  .closing-copy {
-    padding-block: 64px;
-  }
 }
 @media (min-width: 1100px) {
-  .closing-cta {
-    margin-top: 96px;
-  }
   .footer-grid {
     gap: 64px;
   }
@@ -1486,3 +1493,39 @@ body:has(.closing-cta :focus) .sticky-whatsapp {
     padding-top: 64px;
   }
 }
+
+/* The fixed stage belongs to the homepage; opaque section surfaces stay above it. */
+body:has(.background-stage) { isolation: isolate; }
+.background-stage {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: var(--background);
+}
+.background-stage img {
+  object-fit: cover;
+  object-position: var(--bg-position);
+  opacity: 0;
+  transition: opacity 900ms cubic-bezier(.4, 0, .2, 1);
+}
+.background-stage img[data-active='true'] { opacity: 1; }
+.background-stage img[data-parallax] {
+  transition: none;
+  will-change: transform;
+}
+.background-stage::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(9,11,13,.88), rgba(9,11,13,.68) 45%, rgba(9,11,13,.30)),
+    linear-gradient(0deg, rgba(9,11,13,.24), transparent 20% 80%, rgba(9,11,13,.24));
+}
+@media (max-width: 767.98px) {
+  .background-stage img { object-position: var(--bg-mobile-position); }
+  .background-stage::after { background: rgba(9,11,13,.72); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .background-stage img { transition: none; }
+}
+body:has([data-motion-paused='true']) .background-stage img { transition: none; }

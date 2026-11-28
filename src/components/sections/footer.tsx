@@ -67,7 +67,7 @@ export function Footer() {
     }
   }
   return (
-    <footer className="site-footer">
+    <footer className="site-footer" data-bg-section="footer">
       <div className="container">
         <div className="footer-grid">
           <div>

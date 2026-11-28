@@ -11,7 +11,7 @@ export function Faq() {
 
   return (
     <section
-      id="faq"
+      id="faq" data-bg-section="faq"
       className="training faq"
       aria-labelledby="faq-title"
       tabIndex={-1}

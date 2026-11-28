@@ -2,16 +2,19 @@ import type { ReactNode } from 'react';
 
 export function ContactAction({
   href,
+  channel = 'whatsapp',
   className = '',
   children,
 }: {
   href: string | null;
+  channel?: 'whatsapp' | 'call';
   className?: string;
   children: ReactNode;
 }) {
   if (!href) {
     return (
       <span
+        data-contact-channel={channel}
         className={`button contact-disabled ${className}`}
         aria-disabled="true"
         title="Contact number awaiting verification"
@@ -25,7 +28,7 @@ export function ContactAction({
     );
   }
   return (
-    <a href={href} className={`button ${className}`}>
+    <a href={href} data-contact-channel={channel} className={`button ${className}`}>
       {children}
     </a>
   );

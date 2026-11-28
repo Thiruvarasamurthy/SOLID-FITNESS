@@ -7,7 +7,7 @@ import { TrialForm } from '@/components/sections/trial-form';
 export function Contact() {
   return (
     <section
-      id="contact"
+      id="contact" data-bg-section="faq"
       className="contact-section"
       aria-labelledby="contact-title"
       tabIndex={-1}

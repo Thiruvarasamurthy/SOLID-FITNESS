@@ -1,5 +1,3 @@
-import { RibbonExperience } from '@/components/motion/ribbon-experience';
-import { RibbonFallback } from '@/components/motion/ribbon-fallback';
 import { gymConfig } from '@/content/gym-config';
 import { contactLinks } from '@/lib/contact-links';
 import { HeroEntrance } from '@/components/motion/hero-entrance';
@@ -8,7 +6,7 @@ import { CallButton } from '@/components/ui/call-button';
 
 export function Hero() {
   return (
-    <section id="home" className="hero" aria-labelledby="hero-title">
+    <section id="home" data-bg-section="home" className="hero" aria-labelledby="hero-title">
       <HeroEntrance>
         <div className="hero-copy">
           <span className="eyebrow">{gymConfig.hero.eyebrow}</span>
@@ -37,9 +35,6 @@ export function Hero() {
             </p>
           )}
         </div>
-        <RibbonExperience labels={gymConfig.hero.motion}>
-          <RibbonFallback />
-        </RibbonExperience>
       </HeroEntrance>
     </section>
   );

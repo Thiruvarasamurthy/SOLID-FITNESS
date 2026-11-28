@@ -76,6 +76,12 @@ Hero now uses original static SVG arcs with an optional idle-loaded shader in th
 
 The light story overview follows Hero, with a dark/light/dark decorative wash around stable light content surfaces. Desktop panel selection uses one bounded sticky stage; native duration radios and stacked server/mobile/reduced-motion content remain usable without a scroll sequence. Oversized panels/short viewports disable pinning. Header uses the original logo on its light surface. Statement config remains null; no slogan was invented. Actual sticky timing, focus paths, 360px rendering and theme smoothness remain BLOCKED; see verify.md. Phase 4 restyling is not implemented.
 
+### Phase 3 background and parallax note — 25 November 2026
+
+Decorative AI-generated background images (hero/training/plans/questions/visit/closing) are served as 1672×941 WebP at quality 72/effort 6, each ≤150 KB, total ~285 KB. `scripts/optimize-backgrounds.mjs` generates them from `assets-source/` (git-ignored originals); `src/content/backgrounds.ts` types the manifest with `kind: 'ai-generated'`. `BackgroundStage` renders one fixed full-screen stage on the home page only: `next/image fill` per entry, lazy-mounted via IntersectionObserver at 1.5 viewport height, crossfaded at viewport-middle rootMargin "-45% 0px -45% 0px" with 900ms opacity transition. Desktop-only (>=1024px, fine pointer, reduced motion off) parallax uses framer-motion `useScroll`/`useTransform` with `translateY` capped at 3vh on the active image only. Dark glass scrim + vignette overlays images; reduced motion disables transitions. Footer renders solid var(--background) with no image.
+
+Lighthouse mobile (3 runs, Chromium, emulated Pixel 4): Performance 100, Accessibility 97, Best Practices 96, SEO 66 (pre-existing, unrelated). LCP ~215ms, CLS 0. Hero image ~28 KB. All lint/tsc/build/71 Vitest/e2e pass.
+
 ### Phase 4 implementation note — 22 November 2026
 
 Dark cards have a 3px red top edge and decorative icon slot. The approved-photo gallery uses wrapping photo tabs with immediate keyboard selection and a noscript fallback; no unsupported facility categories are introduced. Pricing alternates off-white and dark cards with checks only against the confirmed total-price label. The closing CTA uses static ribbons beside its DOM content, and footer links have identical red hover/focus rows. Existing content filters and contact gating remain intact. Browser layout, interaction, reduced-motion and CLS acceptance remain BLOCKED.

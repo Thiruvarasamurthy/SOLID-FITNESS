@@ -13,7 +13,7 @@ const rupees = new Intl.NumberFormat('en-IN', {
 export function Pricing() {
   return (
     <section
-      id="pricing"
+      id="pricing" data-bg-section="pricing"
       className="pricing"
       aria-labelledby="pricing-title"
       tabIndex={-1}

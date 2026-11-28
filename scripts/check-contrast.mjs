@@ -41,6 +41,12 @@ for (const bg of [tokens['light-surface'], '#ffffff']) {
 }
 for (const bg of ['accent', 'accent-hover'])
   check(`button / skip text on ${bg}`, tokens['on-accent'], tokens[bg]);
+// rgba(9,11,13,.78) over the near-black background stays #090b0d; the light
+// card is rgba(245,242,235,.94) over dark, about #ece9e3.
+check('foreground on dark glass panel', '#f5f2eb', '#090b0d');
+check('light-ink on light pricing card', '#090b0d', '#ece9e3');
+check('accent-deep on light pricing card', '#b3121a', '#ece9e3');
+check('light-muted on light pricing card', '#45494f', '#ece9e3');
 console.log(
   '| Pair | Colors | Ratio | Required | Result |\n| --- | --- | --- | --- | --- |\n' +
     rows.join('\n'),

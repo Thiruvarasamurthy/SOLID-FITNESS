@@ -50,8 +50,6 @@ describe('horizontal gallery tab navigation', () => {
       ),
     );
     expect(html).toContain('href="#contact"');
-    expect(html).toContain('id="hero-ribbon-metal"');
-    expect(html).toContain('id="closing-ribbon-metal"');
     expect(html).not.toContain('<canvas');
   });
 });

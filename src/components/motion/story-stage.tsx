@@ -8,7 +8,7 @@ import {
   type ReactNode,
 } from 'react';
 import { useScroll } from 'framer-motion';
-import { canPinStory, storyIndex, storyWash } from '@/lib/scroll-story';
+import { canPinStory, storyIndex } from '@/lib/scroll-story';
 
 type StoryPanel = { id: string; label: string; content: ReactNode };
 
@@ -35,20 +35,7 @@ export function StoryStage({
     const target = track.current;
     if (!root || !target) return;
     const preference = matchMedia('(prefers-reduced-motion: reduce)');
-    const header = document.querySelector<HTMLElement>('.site-header');
     let frame = 0;
-    let headerFrame = 0;
-    const headerTheme = () => {
-      if (!header) return;
-      const box = root.getBoundingClientRect();
-      const edge = header.getBoundingClientRect().bottom;
-      if (box.top <= edge && box.bottom > edge) header.dataset.theme = 'light';
-      else delete header.dataset.theme;
-    };
-    const scrollHeader = () => {
-      cancelAnimationFrame(headerFrame);
-      headerFrame = requestAnimationFrame(headerTheme);
-    };
     const measure = () => {
       reduced.current = preference.matches;
       const panelNodes = [
@@ -80,8 +67,6 @@ export function StoryStage({
       }
       enhanced.current = enabled;
       setPinned(enabled);
-      if (preference.matches) root.style.removeProperty('--story-wash');
-      headerTheme();
     };
     const schedule = () => {
       cancelAnimationFrame(frame);
@@ -92,33 +77,26 @@ export function StoryStage({
       .querySelectorAll('.story-panel, .story-nav')
       .forEach((node) => resize.observe(node));
     const unsubscribe = scrollYProgress.on('change', (progress) => {
-      if (!reduced.current)
-        root.style.setProperty('--story-wash', storyWash(progress));
       // Never let scrolling hide a focused radio, CTA or navigation choice.
       if (enhanced.current && !root.contains(document.activeElement))
         setActive(storyIndex(progress, panels.length));
     });
     schedule();
     window.addEventListener('resize', schedule);
-    window.addEventListener('scroll', scrollHeader, { passive: true });
     preference.addEventListener('change', schedule);
     return () => {
       cancelAnimationFrame(frame);
-      cancelAnimationFrame(headerFrame);
       resize.disconnect();
       unsubscribe();
       window.removeEventListener('resize', schedule);
-      window.removeEventListener('scroll', scrollHeader);
       preference.removeEventListener('change', schedule);
-      root.style.removeProperty('--story-wash');
-      if (header) delete header.dataset.theme;
     };
   }, [panels.length, scrollYProgress]);
 
   return (
     <section
       ref={section}
-      className="scroll-story"
+      className="scroll-story" data-bg-section="story"
       data-theme="light"
       aria-labelledby="story-title"
     >

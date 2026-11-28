@@ -2,8 +2,6 @@ import { describe, expect, it } from 'vitest';
 import {
   boundedProgress,
   storyIndex,
-  storyLightness,
-  storyWash,
   revealedWordCount,
   canPinStory,
 } from '@/lib/scroll-story';
@@ -21,13 +19,11 @@ describe('story progress and theme math', () => {
     expect(storyIndex(1, 2)).toBe(1);
     expect(storyIndex(1, 0)).toBe(0);
   });
-  it('moves dark to light to dark with a stable central plateau', () => {
-    expect(storyWash(0)).toBe('rgb(9, 11, 13)');
-    expect(storyWash(0.5)).toBe('rgb(245, 242, 235)');
-    expect(storyWash(1)).toBe('rgb(9, 11, 13)');
-    expect(storyLightness(0.1)).toBeCloseTo(storyLightness(0.9));
-    for (let i = 0; i <= 100; i++)
-      expect(storyLightness(i / 100)).toBeGreaterThanOrEqual(0);
+  it('selects one of the available story panels', () => {
+    expect(storyIndex(0.4, 3)).toBe(1);
+    expect(storyIndex(0.4, 2)).toBe(0);
+    expect(storyIndex(1, 2)).toBe(1);
+    expect(storyIndex(1, 0)).toBe(0);
   });
   it('bounds word emphasis without removing text', () => {
     expect(revealedWordCount(0, 4)).toBe(0);

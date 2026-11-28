@@ -5,6 +5,7 @@ out/
 !.env.example
 *.tsbuildinfo
 upload/
+/assets-source/
 
 playwright-report/
 test-results/
